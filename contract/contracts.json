@@ -1,0 +1,12 @@
+{
+    "my.sol": {
+        "id": "0xf7083b687277757f89792a08860db6995226e2a2",
+        "code": "",
+        "abi" : [{"constant":false,"inputs":[{"name":"name","type":"string"},{"name":"fullname","type":"string"},{"name":"amount","type":"int256"}],"name":"regist","outputs":[],"type":"function"},{"constant":true,"inputs":[{"name":"idx","type":"uint256"}],"name":"get","outputs":[{"name":"name","type":"string"},{"name":"fullname","type":"string"},{"name":"amount","type":"int256"}],"type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"custs","outputs":[{"name":"name","type":"string"},{"name":"fullname","type":"string"},{"name":"amount","type":"int256"}],"type":"function"},{"constant":true,"inputs":[],"name":"getCount","outputs":[{"name":"count","type":"uint256"}],"type":"function"}]
+    },
+    "test.sol": {
+        "id": "aa",
+        "code": "codea",
+        "abi": "abi a"
+    }
+}
