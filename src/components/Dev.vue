@@ -39,10 +39,10 @@
 
     <table class="table table-condensed table-hover">
       <tr>
-        <th>Name</th><th></th>Fullname<th>Amount</th>
+        <th>Name</th><th>Fullname</th><th>Amount</th>
       </tr>
       <tr v-for="item in items">
-        <td></td>
+        <td>{{item.name}}</td><td>{{item.fullname}}</td><td>{{item.amount}}</td>
       </tr>
     </table>
 
@@ -52,7 +52,7 @@
 <script>
 import Web3 from '../w3'
 import contracts from '../../contract/contracts.json'
-import my_sol from 'raw!../../contract/my.sol'
+// import my_sol from 'raw!../../contract/my.sol'
 var web3
 var contractInstance
 
@@ -76,29 +76,61 @@ export default {
     web3 = Web3.web3()
     web3.eth.defaultAccount = web3.eth.accounts[0]
     // this.source = my_sol
-    // this.loadContract()
-    // this.listData()
+    this.loadContract()
+    this.listData()
   },
   methods: {
+    loadContract () {
+      const cont = 'my.sol'
+      var abi = contracts[cont].abi
+      var contract = web3.eth.contract(abi)
+      contractInstance = contract.at(contracts[cont].id)
+      console.log(contractInstance)
+    },
     listData () {
       var cnt = contractInstance.getCount()
-      console.log(cnt)
-    },
-    loadContract () {
-      var abi = contracts['my']['abi']
-      var contract = web3.eth.contract(abi)
-      contractInstance = contract.at(contracts['my']['id'])
-      console.log(contractInstance)
+      console.log(cnt.toString())
+      for (var i = 0; i < cnt.toNumber(); i++) {
+        var r = contractInstance.get.call(i)
+        this.items.push({
+          name: r[0].toString(),
+          fullname: r[1].toString(),
+          amount: r[2].toNumber()
+        })
+        console.log(r)
+      }
     },
     registCust () {
       this.msgInfo = this.msgWarn = ''
       var self = this
       contractInstance.regist(
-        this.cust.name, this.cust.fullname, this.cust.amount,
+        this.cust.name,
+        this.cust.fullname,
+        this.cust.amount,
+        // {gas: 500000},
         function (err, result) {
-          if (err) self.msgWarn = err
+          if (err) {
+            self.msgWarn = err
+            console.log(err)
+            return
+          }
           self.msgInfo = result
-          // console.log(result)
+          console.log(result)
+
+          var txhash = result
+          var filter = web3.eth.filter('latest')
+          filter.watch(function (error, result) {
+            if (error) console.log(error)
+            // XXX this should be made asynchronous as well.  time
+            // to get the async library out...
+            var receipt = web3.eth.getTransactionReceipt(txhash)
+            // XXX should probably only wait max 2 events before failing XXX
+            if (receipt && receipt.transactionHash === txhash) {
+              var res = contractInstance.getCount.call()
+              console.log('the transactionally incremented data was: ' + res.toString(10))
+              filter.stopWatching()
+            }
+          })
         }
       )
     }

@@ -1,7 +1,7 @@
 {
-  "name": "mytemplate",
+  "name": "ethcont",
   "version": "0.0.1",
-  "description": "vue template",
+  "description": "ethcont",
   "main": "./src/index.js",
   "scripts": {
     "dev": "webpack-dev-server --inline --hot --port 3000",
@@ -10,10 +10,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "mytemplate"
+    "url": "ethcont"
   },
   "keywords": [
-    "template"
+    "ethcont"
   ],
   "author": "trump27",
   "license": "MIT",

@@ -20,6 +20,7 @@
     </div>
     <div>
       source:<pre>{{currentSource}}</pre>
+      test:<pre>{{test}}</pre>
     </div>
 
   </div>
@@ -35,6 +36,7 @@ var web3
 export default {
   data () {
     return {
+      test: '',
       msgInfo: '',
       msgWarn: '',
       selected: null,
@@ -77,8 +79,10 @@ export default {
         return
       }
       var inputSrc = this.currentSource
+      inputSrc = inputSrc.replace(/\/\/.*/g, '')
       inputSrc = inputSrc.replace(/\r?\n/g, ' ')
       inputSrc = inputSrc.replace(/\s+/g, ' ')
+      this.test = inputSrc
       var compiled = web3.eth.compile.solidity(inputSrc)
       console.log(compiled)
 

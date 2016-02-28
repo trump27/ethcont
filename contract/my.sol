@@ -4,6 +4,7 @@ contract my {
         string  fullname;
         int     amount;
     }
+
     Cust[] public custs;
     function regist(
         string  name,

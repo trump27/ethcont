@@ -1,23 +1,28 @@
 contract test {
     struct Cust {
-        string  name;
-        string  fullname;
+        uint  name;
+        uint  fullname;
         int     amount;
     }
     Cust[] public custs;
     function regist(
-        string  name,
-        string  fullname,
+        uint  name,
+        uint  fullname,
         int     amount
     ) {
-        custs.push(Cust(
+        // custs.push(Cust(
+            // name,
+            // fullname,
+            // amount
+        // ));
+        custs[custs.length++] = Cust(
             name,
             fullname,
             amount
-        ));
+        );
     }
     function get(uint idx) constant returns
-        (string name, string fullname, int amount) {
+        (uint name, uint fullname, int amount) {
         Cust c = custs[idx];
         name = c.name;
         fullname = c.fullname;
